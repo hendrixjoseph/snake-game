@@ -1,0 +1,25 @@
+{
+  "name": "snake",
+  "version": "1.0.0",
+  "description": "snake game written with phaser",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "JoeHx",
+  "license": "ISC",
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "prettier": "^3.0.3",
+    "ts-loader": "^9.5.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "phaser": "^3.60.0"
+  }
+}
