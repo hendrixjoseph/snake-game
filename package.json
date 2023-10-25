@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --mode production",
     "build-dev": "webpack --mode none",
-    "start:dev": "webpack serve --mode production"
+    "start:dev": "webpack serve --mode production",
+    "pretty": "npx prettier . --write"
   },
   "author": "JoeHx",
   "license": "ISC",
