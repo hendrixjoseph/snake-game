@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: {
-    app: "./src/ts/Game.ts",
+    app: "./src/ts/SnakeGame.ts",
   },
   module: {
     rules: [
@@ -39,11 +39,7 @@ module.exports = {
         {
           from: "./src/*.html",
           to: "[name][ext]",
-        },
-        {
-          from: "./src/assets/*.png",
-          to: "assets/[name][ext]",
-        },
+        }
       ],
     }),
   ],
