@@ -8,6 +8,7 @@ module.exports = {
   entry: {
     app: "./src/ts/SnakeGame.ts",
   },
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {
