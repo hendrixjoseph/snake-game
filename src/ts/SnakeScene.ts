@@ -23,6 +23,11 @@ export default class SnakeScene extends Phaser.Scene {
 
   eat(food: Phaser.GameObjects.Star) {
     food.destroy();
+
+    let x = Phaser.Math.RND.between(10, 790);
+    let y = Phaser.Math.RND.between(10, 590);
+
+    this.food = this.add.star(x, y, 5, 5, 10, 0x00ff00);
     
   }
 
