@@ -8,17 +8,17 @@ export default class SnakeScene extends Phaser.Scene {
   readonly INITIAL_SPEED = 10;
   readonly MAX_SPEED = 500;
 
-  foodTypes: FoodTypes[] = [
-    ["faster", 0xff0000],
-    ["scorer", 0x00ff00],
-  ];
+  foodTypes: Record<Food, number> = {
+    faster: 0xff0000,
+    scorer: 0x00ff00,
+  };
 
   snakeHead: Phaser.GameObjects.Rectangle;
   snakeBody: Phaser.GameObjects.Rectangle[] = [];
 
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
 
-  food: Phaser.GameObjects.Star;
+  food: Phaser.GameObjects.Star[];
 
   xVelocity = 0;
   yVelocity = 0;
@@ -37,8 +37,16 @@ export default class SnakeScene extends Phaser.Scene {
 
     this.snakeHead = this.add.rectangle(400, 300, 20, 20, 0xff0000);
 
-    this.food = this.add.star(450, 350, 5, 5, 10, 0x00ff00);
-    this.food.setData("type", "scorer" satisfies Food);
+    this.food = [
+      this.createFood("scorer", 450, 350),
+      this.createFood("faster", 350, 250),
+    ];
+  }
+
+  createFood(type: Food, x: number, y: number) {
+    let food = this.add.star(x, y, 5, 5, 10, this.foodTypes[type]);
+    food.setData("type", type);
+    return food;
   }
 
   eat(food: Phaser.GameObjects.Star) {
@@ -55,10 +63,8 @@ export default class SnakeScene extends Phaser.Scene {
     let x = Phaser.Math.RND.between(10, 790);
     let y = Phaser.Math.RND.between(10, 590);
 
-    let foodType = Phaser.Math.RND.pick(this.foodTypes);
-
-    this.food = this.add.star(x, y, 5, 5, 10, foodType[1]);
-    this.food.setData("type", foodType[0]);
+    this.food = this.food.filter((f) => f !== food);
+    this.food.push(this.createFood(eatenFoodType, x, y));
 
     this.snakeLength++;
 
@@ -77,9 +83,9 @@ export default class SnakeScene extends Phaser.Scene {
 
           this.move();
 
-          if (this.intersects(this.snakeHead, this.food)) {
-            this.eat(this.food);
-          }
+          this.food
+            .filter((f) => this.intersects(this.snakeHead, f))
+            .forEach((f) => this.eat(f));
         }
       }
     }
