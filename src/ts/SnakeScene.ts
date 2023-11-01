@@ -5,6 +5,9 @@ type FoodTypes = [Food, number];
 export default class SnakeScene extends Phaser.Scene {
   public static Name = "SnakeScene";
 
+  readonly INITIAL_SPEED = 10;
+  readonly MAX_SPEED = 500;
+
   foodTypes: FoodTypes[] = [
     ["faster", 0xff0000],
     ["scorer", 0x00ff00],
@@ -22,10 +25,9 @@ export default class SnakeScene extends Phaser.Scene {
 
   snakeLength = 10;
 
-  speed = 500;
-
   lastUpdateTime = 0;
 
+  speed = this.INITIAL_SPEED;
   score = 0;
 
   gameOver = false;
@@ -43,10 +45,11 @@ export default class SnakeScene extends Phaser.Scene {
     let eatenFoodType = food.getData("type") as Food;
 
     if (eatenFoodType === "scorer") {
-      this.score += 10;
+      this.score += 10 + (this.speed - this.INITIAL_SPEED) / 2;
       document.getElementById("score")!.innerText = this.score.toString();
     } else if (eatenFoodType === "faster") {
-      this.speed = Math.max(this.speed - 10, 0);
+      this.speed = Math.min(this.speed + 10, this.MAX_SPEED);
+      document.getElementById("speed")!.innerText = this.speed.toString();
     }
 
     let x = Phaser.Math.RND.between(10, 790);
@@ -69,7 +72,7 @@ export default class SnakeScene extends Phaser.Scene {
       if (this.xVelocity !== 0 || this.yVelocity !== 0) {
         let timeDiff = time - this.lastUpdateTime;
 
-        if (timeDiff > this.speed) {
+        if (timeDiff > this.MAX_SPEED - this.speed) {
           this.lastUpdateTime = time;
 
           this.move();
