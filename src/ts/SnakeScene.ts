@@ -102,16 +102,16 @@ export default class SnakeScene extends Phaser.Scene {
   }
 
   setDirection() {
-    if (this.cursors.left.isDown) {
+    if (this.cursors.left.isDown && this.xVelocity !== 1) {
       this.xVelocity = -1;
       this.yVelocity = 0;
-    } else if (this.cursors.right.isDown) {
+    } else if (this.cursors.right.isDown && this.xVelocity !== -1) {
       this.xVelocity = 1;
       this.yVelocity = 0;
-    } else if (this.cursors.up.isDown) {
+    } else if (this.cursors.up.isDown && this.yVelocity !== 1) {
       this.xVelocity = 0;
       this.yVelocity = -1;
-    } else if (this.cursors.down.isDown) {
+    } else if (this.cursors.down.isDown && this.yVelocity !== -1) {
       this.xVelocity = 0;
       this.yVelocity = 1;
     }
