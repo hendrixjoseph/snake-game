@@ -1,5 +1,10 @@
 type Food = "faster" | "scorer";
 
+type Direction = keyof Omit<
+  Phaser.Types.Input.Keyboard.CursorKeys,
+  "space" | "shift"
+>;
+
 export default class SnakeScene extends Phaser.Scene {
   public static Name = "SnakeScene";
 
@@ -31,8 +36,6 @@ export default class SnakeScene extends Phaser.Scene {
   gameOver = false;
 
   create(): void {
-    this.cursors = this.input.keyboard!.createCursorKeys();
-
     this.snakeHead = this.add.rectangle(400, 300, 20, 20, 0xff0000);
 
     this.food = [
@@ -41,6 +44,22 @@ export default class SnakeScene extends Phaser.Scene {
     ];
 
     this.setupFullScreen();
+    this.setupControls();
+  }
+
+  setupControls() {
+    let directions: Direction[] = ["up", "down", "left", "right"];
+    let cursors = this.input.keyboard!.createCursorKeys();
+
+    directions.forEach((direction) => {
+      let button = document.querySelector<HTMLButtonElement>(
+        `.d-pad .${direction}`,
+      )!;
+      button.addEventListener("click", () => this.setDirection(direction));
+
+      let cursor = cursors[direction];
+      cursor.addListener("down", () => this.setDirection(direction));
+    });
   }
 
   setupFullScreen() {
@@ -91,8 +110,6 @@ export default class SnakeScene extends Phaser.Scene {
 
   update(time: number) {
     if (!this.gameOver) {
-      this.setDirection();
-
       if (this.xVelocity !== 0 || this.yVelocity !== 0) {
         let timeDiff = time - this.lastUpdateTime;
 
@@ -119,17 +136,17 @@ export default class SnakeScene extends Phaser.Scene {
     );
   }
 
-  setDirection() {
-    if (this.cursors.left.isDown && this.xVelocity !== 1) {
+  setDirection(direction: Direction) {
+    if (direction === "left" && this.xVelocity !== 1) {
       this.xVelocity = -1;
       this.yVelocity = 0;
-    } else if (this.cursors.right.isDown && this.xVelocity !== -1) {
+    } else if (direction === "right" && this.xVelocity !== -1) {
       this.xVelocity = 1;
       this.yVelocity = 0;
-    } else if (this.cursors.up.isDown && this.yVelocity !== 1) {
+    } else if (direction === "up" && this.yVelocity !== 1) {
       this.xVelocity = 0;
       this.yVelocity = -1;
-    } else if (this.cursors.down.isDown && this.yVelocity !== -1) {
+    } else if (direction === "down" && this.yVelocity !== -1) {
       this.xVelocity = 0;
       this.yVelocity = 1;
     }
