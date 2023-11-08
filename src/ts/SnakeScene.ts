@@ -40,15 +40,19 @@ export default class SnakeScene extends Phaser.Scene {
       this.createFood("faster", 350, 250),
     ];
 
-    const fKey = this.input.keyboard!.addKey("F");
-
-    fKey.on("down", () => {
+    let toggleFullScreen = () => {
       if (this.scale.isFullscreen) {
         this.scale.stopFullscreen();
       } else {
         this.scale.startFullscreen();
       }
-    });
+    }
+
+    const fKey = this.input.keyboard!.addKey("F");
+    fKey.on("down", toggleFullScreen);
+
+    let fullScreenButton = document.getElementById('fullScreenButton') as HTMLElement;
+    fullScreenButton.addEventListener('click', toggleFullScreen);
   }
 
   createFood(type: Food, x: number, y: number) {
