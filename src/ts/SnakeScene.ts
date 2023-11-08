@@ -40,6 +40,10 @@ export default class SnakeScene extends Phaser.Scene {
       this.createFood("faster", 350, 250),
     ];
 
+    this.setupFullScreen();
+  }
+
+  setupFullScreen() {
     let toggleFullScreen = () => {
       if (this.scale.isFullscreen) {
         this.scale.stopFullscreen();
