@@ -1,7 +1,21 @@
-div:fullscreen {
+#content:fullscreen {
   background: whitesmoke;
+  align-items: center;
+  justify-content: center;
+}
+
+#content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+}
+
+#controls {
+  display: flex;
+  justify-content: space-evenly;
   align-items: center;
+}
+
+#content,
+#controls {
+  width: 800px;
 }
