@@ -38,7 +38,7 @@ module.exports = {
           to: "lib",
         },
         {
-          from: "./src/*.html",
+          from: "./src/*.{css,html}",
           to: "[name][ext]",
         },
       ],

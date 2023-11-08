@@ -20,8 +20,9 @@ window.onload = () => {
       },
     },
     type: Phaser.AUTO,
-    parent: "content",
+    parent: "canvas",
     title: "Snake Game",
+    fullscreenTarget: "content",
   };
 
   new SnakeGame(gameConfig);

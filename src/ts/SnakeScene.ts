@@ -1,7 +1,5 @@
 type Food = "faster" | "scorer";
 
-type FoodTypes = [Food, number];
-
 export default class SnakeScene extends Phaser.Scene {
   public static Name = "SnakeScene";
 
@@ -41,6 +39,16 @@ export default class SnakeScene extends Phaser.Scene {
       this.createFood("scorer", 450, 350),
       this.createFood("faster", 350, 250),
     ];
+
+    const fKey = this.input.keyboard!.addKey("F");
+
+    fKey.on("down", () => {
+      if (this.scale.isFullscreen) {
+        this.scale.stopFullscreen();
+      } else {
+        this.scale.startFullscreen();
+      }
+    });
   }
 
   createFood(type: Food, x: number, y: number) {
