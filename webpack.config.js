@@ -4,6 +4,8 @@ const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
+let appName = "snake";
+
 module.exports = {
   entry: {
     app: "./src/ts/SnakeGame.ts",
@@ -25,7 +27,7 @@ module.exports = {
     phaser: "Phaser",
   },
   output: {
-    filename: "app.js",
+    filename: `${appName}.js`,
     path: path.resolve(__dirname, "public"),
   },
   devtool: "source-map",
