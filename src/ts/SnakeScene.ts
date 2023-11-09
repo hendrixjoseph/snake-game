@@ -30,8 +30,26 @@ export default class SnakeScene extends Phaser.Scene {
 
   lastUpdateTime: number;
 
-  speed: number;
-  score: number;
+  _speed: number;
+  _score: number;
+
+  set speed(speed: number) {
+    this._speed = speed;
+    document.getElementById("speed")!.innerText = this.speed.toString();
+  }
+
+  get speed() {
+    return this._speed;
+  }
+
+  set score(score: number) {
+    this._score = score;
+    document.getElementById("score")!.innerText = this.score.toString();
+  }
+
+  get score() {
+    return this._score;
+  }
 
   gameOver: boolean;
 
@@ -115,10 +133,8 @@ export default class SnakeScene extends Phaser.Scene {
 
     if (eatenFoodType === "scorer") {
       this.score += 10 + (this.speed - this.INITIAL_SPEED) / 2;
-      document.getElementById("score")!.innerText = this.score.toString();
     } else if (eatenFoodType === "faster") {
       this.speed = Math.min(this.speed + 10, this.MAX_SPEED);
-      document.getElementById("speed")!.innerText = this.speed.toString();
     }
 
     let x = Phaser.Math.RND.between(10, 790);
