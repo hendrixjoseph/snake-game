@@ -11,32 +11,40 @@ export default class SnakeScene extends Phaser.Scene {
   readonly INITIAL_SPEED = 10;
   readonly MAX_SPEED = 500;
 
-  foodTypes: Record<Food, number> = {
+  readonly FOOD_TYPES: Record<Food, number> = {
     faster: 0xff0000,
     scorer: 0x00ff00,
   };
 
   snakeHead: Phaser.GameObjects.Rectangle;
-  snakeBody: Phaser.GameObjects.Rectangle[] = [];
+  snakeBody: Phaser.GameObjects.Rectangle[];
 
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
 
   food: Phaser.GameObjects.Star[];
 
-  xVelocity = 0;
-  yVelocity = 0;
+  xVelocity: number;
+  yVelocity: number;
 
-  snakeLength = 10;
+  snakeLength: number;
 
-  lastUpdateTime = 0;
+  lastUpdateTime: number;
 
-  speed = this.INITIAL_SPEED;
-  score = 0;
+  speed: number;
+  score: number;
 
-  gameOver = false;
+  gameOver: boolean;
 
   create(): void {
     this.snakeHead = this.add.rectangle(400, 300, 20, 20, 0xff0000);
+    this.snakeBody = [];
+    this.xVelocity = 0;
+    this.yVelocity = 0;
+    this.snakeLength = 10;
+    this.lastUpdateTime = 0;
+    this.speed = this.INITIAL_SPEED;
+    this.score = 0;
+    this.gameOver = false;
 
     this.food = [
       this.createFood("scorer", 450, 350),
@@ -60,6 +68,12 @@ export default class SnakeScene extends Phaser.Scene {
       let cursor = cursors[direction];
       cursor.addListener("down", () => this.setDirection(direction));
     });
+
+    document.addEventListener("click", () => {
+      if (this.gameOver) {
+        this.scene.restart();
+      }
+    })
   }
 
   setupFullScreen() {
@@ -81,7 +95,7 @@ export default class SnakeScene extends Phaser.Scene {
   }
 
   createFood(type: Food, x: number, y: number) {
-    let food = this.add.star(x, y, 5, 5, 10, this.foodTypes[type]);
+    let food = this.add.star(x, y, 5, 5, 10, this.FOOD_TYPES[type]);
     food.setData("type", type);
     return food;
   }
