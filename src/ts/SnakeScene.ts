@@ -35,6 +35,8 @@ export default class SnakeScene extends Phaser.Scene {
 
   gameOver: boolean;
 
+  documentListenersAdded = false;
+
   create(): void {
     this.snakeHead = this.add.rectangle(400, 300, 20, 20, 0xff0000);
     this.snakeBody = [];
@@ -53,6 +55,8 @@ export default class SnakeScene extends Phaser.Scene {
 
     this.setupFullScreen();
     this.setupControls();
+
+    this.documentListenersAdded = true;
   }
 
   setupControls() {
@@ -60,20 +64,24 @@ export default class SnakeScene extends Phaser.Scene {
     let cursors = this.input.keyboard!.createCursorKeys();
 
     directions.forEach((direction) => {
-      let button = document.querySelector<HTMLButtonElement>(
-        `.d-pad .${direction}`,
-      )!;
-      button.addEventListener("click", () => this.setDirection(direction));
+      if (!this.documentListenersAdded) {
+        let button = document.querySelector<HTMLButtonElement>(
+          `.d-pad .${direction}`,
+        )!;
+        button.addEventListener("click", () => this.setDirection(direction));
+      }
 
       let cursor = cursors[direction];
       cursor.addListener("down", () => this.setDirection(direction));
     });
 
-    document.addEventListener("click", () => {
-      if (this.gameOver) {
-        this.scene.restart();
-      }
-    })
+    if (!this.documentListenersAdded) {
+      document.addEventListener("click", () => {
+        if (this.gameOver) {
+          this.scene.restart();
+        }
+      });
+    }
   }
 
   setupFullScreen() {
@@ -88,10 +96,12 @@ export default class SnakeScene extends Phaser.Scene {
     const fKey = this.input.keyboard!.addKey("F");
     fKey.on("down", toggleFullScreen);
 
-    let fullScreenButton = document.getElementById(
-      "fullScreenButton",
-    ) as HTMLElement;
-    fullScreenButton.addEventListener("click", toggleFullScreen);
+    if (!this.documentListenersAdded) {
+      let fullScreenButton = document.getElementById(
+        "fullScreenButton",
+      ) as HTMLElement;
+      fullScreenButton.addEventListener("click", toggleFullScreen);
+    }
   }
 
   createFood(type: Food, x: number, y: number) {
