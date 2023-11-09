@@ -123,6 +123,15 @@ export default class SnakeScene extends Phaser.Scene {
             .forEach((f) => this.eat(f));
         }
       }
+
+      if (this.gameOver) {
+        this.add
+          .text(400, 300, "Game Over\n\ntap anywhere to start a new game", {
+            fontSize: 30,
+            align: "center",
+          })
+          .setOrigin(0.5);
+      }
     }
   }
 
