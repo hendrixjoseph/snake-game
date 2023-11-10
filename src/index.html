@@ -13,38 +13,6 @@
 
     <title>Snake Game</title>
 
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker.register("/sw.js", { scope: "/" }).then(
-            (registration) => {
-              console.log(
-                "ServiceWorker registration successful with scope: ",
-                registration.scope,
-              );
-            },
-            (err) => {
-              console.log("ServiceWorker registration failed: ", err);
-            },
-          );
-
-          let deferredPrompt;
-
-          window.addEventListener("beforeinstallprompt", (e) => {
-            console.log("beforeinstallprompt triggered");
-            e.preventDefault();
-            deferredPrompt = e;
-          });
-
-          document
-            .getElementById("installButton")
-            .addEventListener("click", () => {
-              deferredPrompt.prompt();
-            });
-        });
-      }
-    </script>
-
     <script src="lib/phaser.min.js"></script>
   </head>
   <body>

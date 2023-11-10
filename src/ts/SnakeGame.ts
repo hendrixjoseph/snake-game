@@ -1,4 +1,5 @@
 import SnakeScene from "./SnakeScene";
+import { setupInstall } from "./install";
 
 export default class SnakeGame extends Phaser.Game {
   constructor(config: Phaser.Types.Core.GameConfig) {
@@ -26,4 +27,6 @@ window.onload = () => {
   };
 
   new SnakeGame(gameConfig);
+
+  setupInstall();
 };
