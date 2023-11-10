@@ -14,13 +14,20 @@ export const setupInstall = () => {
 
     let deferredPrompt: Event & { prompt: () => void };
 
+    let installButton = document.getElementById("installButton");
+
     window.addEventListener("beforeinstallprompt", (e) => {
       console.log("beforeinstallprompt triggered", e.type);
       e.preventDefault();
       deferredPrompt = e as typeof deferredPrompt;
+      installButton?.removeAttribute("hidden");
     });
 
-    document.getElementById("installButton")?.addEventListener("click", () => {
+    window.addEventListener("appinstalled", () => {
+      installButton?.setAttribute("hidden", "");
+    });
+
+    installButton?.addEventListener("click", () => {
       deferredPrompt?.prompt();
     });
   }
