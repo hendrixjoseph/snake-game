@@ -40,8 +40,12 @@ module.exports = {
           to: "lib",
         },
         {
-          from: "./src/*.{css,html}",
+          from: "./src/*.{css,html,js,json}",
           to: "[name][ext]",
+        },
+        {
+          from: "./src/img/",
+          to: "img",
         },
       ],
     }),

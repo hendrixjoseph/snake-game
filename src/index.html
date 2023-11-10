@@ -3,13 +3,49 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1"
-    />
-    <title>Snake Game</title>
-    <script src="lib/phaser.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="black" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="img/icon-192.png" sizes="192x192" />
+    <link rel="icon" href="img/icon-256.png" sizes="256x256" />
+    <link rel="icon" href="img/icon-512.png" sizes="512x512" />
     <link rel="stylesheet" href="snake.css" />
+
+    <title>Snake Game</title>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/sw.js", { scope: "/" }).then(
+            (registration) => {
+              console.log(
+                "ServiceWorker registration successful with scope: ",
+                registration.scope,
+              );
+            },
+            (err) => {
+              console.log("ServiceWorker registration failed: ", err);
+            },
+          );
+
+          let deferredPrompt;
+
+          window.addEventListener("beforeinstallprompt", (e) => {
+            console.log("beforeinstallprompt triggered");
+            e.preventDefault();
+            deferredPrompt = e;
+          });
+
+          document
+            .getElementById("installButton")
+            .addEventListener("click", () => {
+              deferredPrompt.prompt();
+            });
+        });
+      }
+    </script>
+
+    <script src="lib/phaser.min.js"></script>
   </head>
   <body>
     <h1>Snake Game</h1>
@@ -26,6 +62,7 @@
         <span>Speed: <span id="speed">10</span></span>
         <button id="fullScreenButton">Full Screen</button>
       </div>
+      <button id="installButton">Install</button>
     </div>
     <script src="snake.js"></script>
   </body>
