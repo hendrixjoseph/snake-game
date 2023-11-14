@@ -1,10 +1,10 @@
 let cacheName = "snake";
 var filesToCache = [
-  "/",
-  "/index.html",
-  "/snake.css",
-  "/snake.js",
-  "/lib/phaser.min.js",
+  "",
+  "index.html",
+  "snake.css",
+  "snake.js",
+  "lib/phaser.min.js",
 ];
 
 self.addEventListener("install", (event) => {
